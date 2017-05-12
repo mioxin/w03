@@ -1,8 +1,9 @@
 package servlets;
 
-import accounts.AccountService;
-import accounts.UserProfile;
 import com.google.gson.Gson;
+import dbService.DBException;
+import dbService.DBService;
+import dbService.dataSets.UsersDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +19,9 @@ import java.io.IOException;
  *         Описание курса и лицензия: https://github.com/vitaly-chibrikov/stepic_java_webserver
  */
 public class SessionsServlet extends HttpServlet {
-    private final AccountService accountService;
+    private final DBService accountService;
 
-    public SessionsServlet(AccountService accountService) {
+    public SessionsServlet(DBService accountService) {
         this.accountService = accountService;
     }
 
@@ -28,7 +29,22 @@ public class SessionsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
+        String p = request.getParameter("p");
+        UsersDataSet profile = null;
+        try {
+            //profile = accountService.getUserBySessionId(sessionId);
+            switch (p){
+                case "delsession":
+                    profile = getProfile(sessionId);
+                    delSession(profile.getName());
+                    break;
+                default:
+                    profile = getProfile(sessionId);
+                    break;
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
         if (profile == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -46,6 +62,7 @@ public class SessionsServlet extends HttpServlet {
                        HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
+        String sessionId = request.getSession().getId();
 
         if (login == null || pass == null) {
             response.setContentType("text/html;charset=utf-8");
@@ -53,14 +70,24 @@ public class SessionsServlet extends HttpServlet {
             return;
         }
 
-        UserProfile profile = accountService.getUserByLogin(login);
+        UsersDataSet profile = null;
+        try {
+            profile = accountService.getUserByLogin(login);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
         if (profile == null || !profile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-
-        accountService.addSession(request.getSession().getId(), profile);
+        else {
+            try {
+                accountService.addSession(request.getSession().getId(), login);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
         Gson gson = new Gson();
         String json = gson.toJson(profile);
         response.setContentType("text/html;charset=utf-8");
@@ -72,16 +99,32 @@ public class SessionsServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
+        UsersDataSet profile = null;
+        try {
+            profile = accountService.getUserBySessionId(sessionId);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
         if (profile == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            accountService.deleteSession(sessionId);
+            try {
+                accountService.deleteSession(profile.getName());
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Goodbye!");
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
+    }
+
+    private void delSession(String login) throws DBException {
+        accountService.deleteSession(login);
+    }
+    private UsersDataSet getProfile(String sessionId) throws DBException {
+        return accountService.getUserBySessionId(sessionId);
     }
 }

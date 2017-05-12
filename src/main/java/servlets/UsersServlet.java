@@ -1,6 +1,7 @@
 package servlets;
 
 import accounts.AccountService;
+import dbService.DBService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +18,9 @@ import java.io.IOException;
  */
 public class UsersServlet extends HttpServlet {
     @SuppressWarnings({"FieldCanBeLocal", "UnusedDeclaration"}) //todo: remove after module 2 home work
-    private final AccountService accountService;
+    private final DBService accountService;
 
-    public UsersServlet(AccountService accountService) {
+    public UsersServlet(DBService accountService) {
         this.accountService = accountService;
     }
 

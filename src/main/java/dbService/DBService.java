@@ -74,18 +74,72 @@ public class DBService {
         }
     }
 
-    public long addUser(String name) throws DBException {
+    public UsersDataSet getUserBySessionId(String sessionid) throws DBException {
+        try {
+            Session session = sessionFactory.openSession();
+            UsersDAO dao = new UsersDAO(session);
+            UsersDataSet dataSet = dao.getBySessionId(sessionid);
+            session.close();
+            return dataSet;
+        } catch (HibernateException e) {
+            throw new DBException(e);
+        }
+    }
+
+    public UsersDataSet getUserByLogin(String login) throws DBException {
+        try {
+            Session session = sessionFactory.openSession();
+            UsersDAO dao = new UsersDAO(session);
+            UsersDataSet dataSet = dao.getByUser(login);
+            session.close();
+            return dataSet;
+        } catch (HibernateException e) {
+            throw new DBException(e);
+        }
+    }
+
+
+    public long addUser(String name, String pass) throws DBException {
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
             UsersDAO dao = new UsersDAO(session);
-            long id = dao.insertUser(name);
+            long id = dao.insertUser(name, pass);
             transaction.commit();
             session.close();
             return id;
         } catch (HibernateException e) {
             throw new DBException(e);
         }
+    }
+
+    public void addSession(String sessionId, String login) throws DBException {
+        try {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+            UsersDAO dao = new UsersDAO(session);
+            dao.setSessionid(sessionId, login);
+            transaction.commit();
+            session.close();
+//            return id;
+        } catch (HibernateException e) {
+            throw new DBException(e);
+        }
+    }
+
+    public void deleteSession(String login) throws DBException {
+        try {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+            UsersDAO dao = new UsersDAO(session);
+            dao.delSessionId(login);
+            transaction.commit();
+            session.close();
+//            return id;
+        } catch (HibernateException e) {
+            throw new DBException(e);
+        }
+
     }
 
     public void printConnectInfo() {

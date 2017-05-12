@@ -26,6 +26,9 @@ public class UsersDataSet implements Serializable { // Serializable Important to
     @Column(name = "password", updatable = true)
     private String pass;
 
+    @Column(name = "session", updatable = true)
+    private String sessionId;
+
     //Important to Hibernate!
     @SuppressWarnings("UnusedDeclaration")
     public UsersDataSet() {
@@ -38,9 +41,10 @@ public class UsersDataSet implements Serializable { // Serializable Important to
         this.setPass(pass);
     }
 
-    public UsersDataSet(String name) {
+    public UsersDataSet(String name, String pass) {
         this.setId(-1);
         this.setName(name);
+        this.setPass(pass);
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -50,6 +54,14 @@ public class UsersDataSet implements Serializable { // Serializable Important to
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getPass() {
@@ -74,6 +86,7 @@ public class UsersDataSet implements Serializable { // Serializable Important to
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", pass='" + pass + '\'' +
+                ", sessionId='" + sessionId + '\'' +
                 '}';
     }
 }

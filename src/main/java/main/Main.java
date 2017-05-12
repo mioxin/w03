@@ -1,6 +1,8 @@
 package main;
 
 
+import accounts.AccountService;
+import accounts.UserProfile;
 import dbService.DBException;
 import dbService.DBService;
 import dbService.dataSets.UsersDataSet;
@@ -22,19 +24,19 @@ import servlets.UsersServlet;
  */
 public class Main {
     public static void main(String[] args) {
-/*
-        AccountService accountService = new AccountService();
-
-        accountService.addNewUser(new UserProfile("admin"));
-        accountService.addNewUser(new UserProfile("test"));
-
-
-*/
+        final int LISTERN_PORT = 8080;
         DBService dbService = new DBService();
         dbService.printConnectInfo();
+
+//        AccountService accountService = new AccountService();
+//        accountService.addNewUser(new UserProfile("admin"));
+//        accountService.addNewUser(new UserProfile("test"));
+
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new UsersServlet(accountService)), "/api/v1/users");
-        context.addServlet(new ServletHolder(new SessionsServlet(accountService)), "/api/v1/sessions");
+//        context.addServlet(new ServletHolder(new UsersServlet(accountService)), "/api/v1/users");
+//        context.addServlet(new ServletHolder(new SessionsServlet(accountService)), "/api/v1/sessions");
+        context.addServlet(new ServletHolder(new UsersServlet(dbService)), "/api/v1/users");
+        context.addServlet(new ServletHolder(new SessionsServlet(dbService)), "/api/v1/sessions");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setResourceBase("public_html");
@@ -42,12 +44,12 @@ public class Main {
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});
 
-        Server server = new Server(8080);
+        Server server = new Server(LISTERN_PORT);
         server.setHandler(handlers);
 
 
         try {
-            long userId = dbService.addUser("test");
+            long userId = dbService.addUser("test","test");
             System.out.println("Added user id: " + userId);
 
             UsersDataSet dataSet = dbService.getUser(userId);
@@ -58,6 +60,7 @@ public class Main {
         }
         try {
             server.start();
+            System.out.println("Server started on port " + LISTERN_PORT);
             server.join();
         } catch (Exception e) {
             e.printStackTrace();

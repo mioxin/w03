@@ -1,0 +1,55 @@
+body {
+    font-family: "PT Sans", "Arial", "Tahoma", serif;
+}
+input {
+    padding-right:5px;
+    background-color: white;
+    float:right;
+}
+.signin, .signup, .button {
+    padding: 5px;
+    margin: 25px;
+    border: 1px solid grey;
+    width: 300px;
+    font-size: 1.1em;
+}
+.signin, .signup {
+    background-color: #fcf8e3;
+    float: left;
+    line-height: 2;
+}
+
+.signin {
+}
+
+.button {
+    display: inline;
+    margin:0px;
+    background-color: #fcf8ff;
+}
+:hover > .button{
+    background-color: #fcf800;
+}
+.menu > a{
+    text-decoration: none;
+}
+.menu{
+    clear: both;
+    margin-left:25px;
+}
+
+.form_button {
+    margin:5px;
+    background-color: #fcf8ff;
+    text-decoration: none;
+    border: 1px solid grey;
+    font-size: 1.1em;
+    width:95%;
+}
+
+.logging {
+    padding: 10px;
+    margin: 25px;
+    border: 1px solid grey;
+    min-height: 50px;
+}

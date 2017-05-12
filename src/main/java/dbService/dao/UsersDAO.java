@@ -25,12 +25,35 @@ public class UsersDAO {
         return (UsersDataSet) session.get(UsersDataSet.class, id);
     }
 
-    public long getUserId(String name) throws HibernateException {
+    public UsersDataSet getByUser(String name) throws HibernateException {
         Criteria criteria = session.createCriteria(UsersDataSet.class);
-        return ((UsersDataSet) criteria.add(Restrictions.eq("login", name)).uniqueResult()).getId();
+        return ((UsersDataSet) criteria.add(Restrictions.eq("name", name)).uniqueResult());//.getId();
     }
 
-    public long insertUser(String name) throws HibernateException {
-        return (Long) session.save(new UsersDataSet(name));
+    public UsersDataSet getBySessionId(String sessionId) throws HibernateException {
+        Criteria criteria = session.createCriteria(UsersDataSet.class);
+        return ((UsersDataSet) criteria.add(Restrictions.eq("sessionId", sessionId)).uniqueResult());//.getId();
+    }
+
+    public long insertUser(String name, String pass) throws HibernateException {
+        return (Long) session.save(new UsersDataSet(name,pass));
+    }
+
+    public void delUser(String name) throws HibernateException {
+        UsersDataSet ds = getByUser(name);
+//        ds.setSessionId(null);
+        session.delete(ds);
+    }
+
+    public void setSessionid(String sessionId, String name) throws HibernateException {
+        UsersDataSet ds = getByUser(name);
+        ds.setSessionId(sessionId);
+        session.saveOrUpdate(ds);
+    }
+
+    public void delSessionId(String name) throws HibernateException {
+        UsersDataSet ds = getByUser(name);
+        ds.setSessionId(null);
+        session.saveOrUpdate(ds);
     }
 }

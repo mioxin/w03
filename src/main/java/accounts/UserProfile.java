@@ -21,7 +21,7 @@ public class UserProfile {
     public UserProfile(String login) {
         this.login = login;
         this.pass = login;
-        this.email = login;
+        this.email = login + "@dot.com";
     }
 
     public String getLogin() {
