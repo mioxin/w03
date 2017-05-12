@@ -32,7 +32,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <outputDirectory>${basedir}</outputDirectory>
+                    <outputDirectory>${project.basedir}</outputDirectory>
                     <finalName>server</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
