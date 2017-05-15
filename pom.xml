@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>L3.2</groupId>
-    <artifactId>w03</artifactId>
+    <artifactId>server</artifactId>
     <version>1.0</version>
     <build>
         <plugins>
@@ -15,7 +15,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <outputFileName>server</outputFileName>
                 </configuration>
             </plugin>
             <plugin>
