@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dlog4j.configurationFile=cfg/log4j2.xml target/w03-1.0.jar 8080
+web: java $JAVA_OPTS -Dlog4j.configurationFile=cfg/log4j2.xml server.jar 8080
