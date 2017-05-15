@@ -33,6 +33,15 @@
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>1.1.3</version>
+                <configuration>
+                    <appName>server</appName>
+                    <includeTarget>false</includeTarget>
+                    <includes>
+                        <include>target/server.jar</include>
+                        <include>cfg/*</include>            
+                        <include>public_html/*</include>    
+                    </includes>                             
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

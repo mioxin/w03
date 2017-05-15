@@ -24,7 +24,13 @@ import servlets.UsersServlet;
  */
 public class Main {
     public static void main(String[] args) {
-        final int LISTERN_PORT = 8080;
+        int LISTERN_PORT = 8080;
+        try {
+            LISTERN_PORT = Integer.parseInt(args[0]);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
         DBService dbService = new DBService();
         dbService.printConnectInfo();
 
