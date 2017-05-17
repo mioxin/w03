@@ -33,13 +33,15 @@ public class SessionsServlet extends HttpServlet {
         UsersDataSet profile = null;
         try {
             //profile = accountService.getUserBySessionId(sessionId);
+            profile = getProfile(sessionId);
             switch (p){
                 case "delsession":
-                    profile = getProfile(sessionId);
                     delSession(profile.getName());
                     break;
+                case "getuser":
+                    getProfile(profile.getSessionId());
+                    break;
                 default:
-                    profile = getProfile(sessionId);
                     break;
             }
         } catch (DBException e) {
