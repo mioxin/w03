@@ -7,6 +7,7 @@
     <groupId>L3.2</groupId>
     <artifactId>server</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>
@@ -26,6 +27,10 @@
                         <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals><goal>copy-dependencies</goal></goals>
+                        <configuration>
+                            <includeScope>compile</includeScope>
+                            <outputDirectory>${project.basedir}/lib</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -37,12 +42,29 @@
                     <appName>server</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
-                        <include>target/server.jar</include>
+                        <include>server.jar</include>
                         <include>cfg/*</include>            
                         <include>public_html/*</include>    
                     </includes>                             
                 </configuration>
             </plugin>
+       <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                    <outputDirectory>${project.basedir}</outputDirectory>
+                    <finalName>server</finalName>
+                <archive>
+                    <manifest>
+                        <mainClass>main.Main</mainClass>
+                        <packageName>main</packageName>
+                        <addClasspath>true</addClasspath>
+                        <classpathPrefix>lib</classpathPrefix>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -51,14 +73,13 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <outputDirectory>${project.basedir}</outputDirectory>
-                    <finalName>server</finalName>
+                    <finalName>server1</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
                             <mainClass>main.Main</mainClass>
                         </manifest>
                     </archive>
-
                 </configuration>
             </plugin>
         </plugins>
