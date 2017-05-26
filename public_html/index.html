@@ -16,7 +16,14 @@
 </form>
     <button class="form_button" type="submit" id="submit">Signin</button>
 </div>
-
+<div class="signup">
+    <form action="/api/v1/sessions" name="signin1" method="POST">
+        <b>SignIn1</b><br>
+        <label>Login:</label> <input type="text" name="login"/><br>
+        <label>Password:</label> <input type="password" name="pass"/><br>
+        <input class="form_button" type="submit" value="Sign in">
+    </form>
+</div>
 <div class="menu"> </div>
 
 <div class="logging" id="log"></div>
