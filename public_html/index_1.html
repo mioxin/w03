@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test. JAVA service.</title>
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<h1>Wellcome</h1>
+<div class="signin">
+<form name="signin">
+    <p>
+        <b>SignIn</b>
+    </p>
+    <label>Login:</label> <input type="text" name="login"/><br>
+    <label>Password:</label> <input type="password" name="pass"/><br>
+    <input class="form_button" type="submit" name="submit" value="Sign in">
+</form>
+</div>
+<div class="signup">
+<form name="signup">
+    <p>
+        <b>SignUp</b>
+    </p>
+    Login: <input type="text" name="login"/><br>
+    Password: <input type="password" name="pass"/><br>
+    eMail: <input type="text" name="email"/><br>
+    <input class="form_button" type="submit" name="submit" value="Sign up">
+</form>
+</div>
+<div class="menu">
+    <a id="getuser" href="/api/v1/sessions?p=getuser">
+        <div class="button">Get user by sessionId</div>
+    </a>
+
+    <a id="deluser" href="/api/v1/users?p=deluser">
+        <div class="button">Delete user</div>
+    </a>
+
+    <a id="delsession" href="/api/v1/sessions?p=delsession">
+        <div class="button">Log out</div>
+    </a>
+</div>
+
+<div class="logging" id="log"></div>
+<script src="js/script.js"></script>
+</body>
+</html>
